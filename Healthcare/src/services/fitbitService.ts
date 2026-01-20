@@ -4,7 +4,7 @@ import axios from 'axios';
 const FITBIT_CLIENT_ID = import.meta.env.VITE_FITBIT_CLIENT_ID;
 const FITBIT_REDIRECT_URI = import.meta.env.VITE_FITBIT_REDIRECT_URI;
 // Use proxy server instead of direct API calls
-const FITBIT_API_BASE = 'http://localhost:3001/api/fitbit';
+const FITBIT_API_BASE = 'https://healthcare-f81v.onrender.com/api/fitbit';
 
 // Scopes needed for health data
 const SCOPES = [
