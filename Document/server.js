@@ -53,17 +53,8 @@ const upload = multer({
 });
 
 // CORS configuration
-app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:3000',
-        'http://localhost:8080',
-        process.env.FRONTEND_URL
-    ].filter(Boolean),
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
+
 
 app.use(express.json());
 
