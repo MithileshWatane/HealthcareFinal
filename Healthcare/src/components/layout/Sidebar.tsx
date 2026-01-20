@@ -38,7 +38,6 @@ const menuItems = [
   { icon: Bell, label: "Alerts", path: "/alerts" },
   { icon: Brain, label: "Mental Health", path: "/mental-health" },
   { icon: Gamepad2, label: "Games & Exercise", path: "/games" },
-  { icon: Activity, label: "Signal Analysis", path: "/signal-analysis" },
   { icon: Heart, label: "Lifestyle", path: "/lifestyle" },
   { icon: User, label: "Profile", path: "/complete-profile" },
 ];

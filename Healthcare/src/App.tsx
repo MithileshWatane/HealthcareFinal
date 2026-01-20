@@ -19,7 +19,7 @@ import HealthRecords from "./pages/HealthRecords";
 import Alerts from "./pages/Alerts";
 import MentalHealth from "./pages/MentalHealth";
 import Games from "./pages/Games";
-import SignalAnalysis from "./pages/SignalAnalysis";
+
 import CancerDetection from "./pages/CancerDetection";
 import Lifestyle from "./pages/Lifestyle";
 import NotFound from "./pages/NotFound";
@@ -41,7 +41,7 @@ const App = () => (
             <Route path="/" element={<LandingPage />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            
+
             {/* Protected Routes - Require Authentication */}
             <Route
               path="/dashboard"
@@ -131,14 +131,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/signal-analysis"
-              element={
-                <ProtectedRoute>
-                  <SignalAnalysis />
-                </ProtectedRoute>
-              }
-            />
+
             <Route
               path="/cancer-detection"
               element={
@@ -166,7 +159,7 @@ const App = () => (
 
             <Route path="patient/:id" element={<PatientPage />} />
             <Route path="/my-qr" element={<PatientQRCode />} />
-            
+
             {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>

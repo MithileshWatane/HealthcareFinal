@@ -93,13 +93,7 @@ const features = [
     path: "/games",
     gradient: "bg-warning",
   },
-  {
-    icon: Activity,
-    title: "Signal Analysis",
-    description: "EEG and audio signal analysis for health monitoring.",
-    path: "/signal-analysis",
-    gradient: "gradient-primary",
-  },
+
 
   {
     icon: Heart,
