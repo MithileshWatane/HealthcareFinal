@@ -4,15 +4,20 @@ import axios from 'axios';
 const FITBIT_CLIENT_ID = import.meta.env.VITE_FITBIT_CLIENT_ID;
 const FITBIT_REDIRECT_URI = import.meta.env.VITE_FITBIT_REDIRECT_URI;
 // Use proxy server instead of direct API calls
-const FITBIT_API_BASE = 'https://healthcare-f81v.onrender.com/api/fitbit';
+const FITBIT_API_BASE = 'https://healthcarefinal-1.onrender.com/api/fitbit';
 
 // Scopes needed for health data
+// Note: HRV, SpO2, and breathing rate may require Fitbit Premium subscription
+// and special OAuth application permissions from Fitbit
 const SCOPES = [
   'activity',
   'heartrate',
   'sleep',
   'nutrition',
   'profile',
+  'oxygen_saturation',  // For SpO2 data
+  'respiratory_rate',   // For breathing rate
+  'temperature',        // For temperature variation
 ].join('%20');
 
 export class FitbitService {
@@ -145,8 +150,19 @@ export class FitbitService {
         }
       );
       return response.data;
-    } catch (error) {
-      console.error('Error fetching HRV data:', error);
+    } catch (error: any) {
+      // Handle 403 Forbidden specifically - usually means Premium subscription required
+      if (error.response?.status === 403) {
+        console.warn('HRV data access forbidden. This may require:');
+        console.warn('1. Fitbit Premium subscription');
+        console.warn('2. Re-authorization with updated scopes');
+        console.warn('3. Special OAuth application permissions from Fitbit');
+
+        // Return null instead of throwing to allow app to continue
+        return null;
+      }
+
+      console.error('Error fetching HRV data:', error.response?.data || error.message);
       throw error;
     }
   }
