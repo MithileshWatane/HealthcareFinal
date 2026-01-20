@@ -1,15 +1,5 @@
 {
-    "routes": [
-        {
-            "src": "/assets/(.*)",
-            "headers": {
-                "Content-Type": "application/javascript"
-            },
-            "dest": "/assets/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
-        }
-    ]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
