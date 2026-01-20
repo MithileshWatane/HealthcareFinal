@@ -35,7 +35,7 @@ export default function Chatbot() {
     {
       id: "1",
       role: "assistant",
-      content: "Hello! I'm your AI medical assistant . I can help answer medical questions based on verified medical literature. How can I assist you today?",
+      content: "Hello! I'm your AI medical assistant powered by Google Gemini. I can help answer your health questions and provide general medical information. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
@@ -146,6 +146,7 @@ export default function Chatbot() {
       );
 
       // Send message to RAG backend
+      // Send message to Gemini API
       const response = await sendMessageToRAG(input);
 
       const aiMessage: Message = {
@@ -170,7 +171,7 @@ export default function Chatbot() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "I apologize, but I'm having trouble processing your request right now. Please make sure the RAG backend is running and try again.",
+        content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
         timestamp: new Date(),
       };
 
@@ -178,7 +179,7 @@ export default function Chatbot() {
 
       toast({
         title: "Error",
-        description: "Failed to get response from RAG chatbot. Is the Flask backend running?",
+        description: "Failed to get response from the AI assistant. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -210,7 +211,7 @@ export default function Chatbot() {
         {
           id: "1",
           role: "assistant",
-          content: "Hello! I'm your AI medical assistant powered by RAG (Retrieval-Augmented Generation) with Groq. I can help answer medical questions based on verified medical literature. How can I assist you today?",
+          content: "Hello! I'm your AI medical assistant powered by Google Gemini. I can help answer your health questions and provide general medical information. How can I assist you today?",
           timestamp: new Date(),
         },
       ]);
@@ -254,7 +255,7 @@ export default function Chatbot() {
           {
             id: "1",
             role: "assistant",
-            content: "Hello! I'm your AI medical assistant powered by RAG (Retrieval-Augmented Generation) with Groq. I can help answer medical questions based on verified medical literature. How can I assist you today?",
+            content: "Hello! I'm your AI medical assistant powered by Google Gemini. I can help answer your health questions and provide general medical information. How can I assist you today?",
             timestamp: new Date(),
           },
         ]);
@@ -277,7 +278,7 @@ export default function Chatbot() {
         <PageHeader
           icon={MessageSquare}
           title="Medical Q&A Chatbot"
-          description="Get instant answers to your health questions from our RAG-powered AI assistant using verified medical literature."
+          description="Get instant answers to your health questions from our AI assistant powered by Google Gemini."
         />
       </div>
 

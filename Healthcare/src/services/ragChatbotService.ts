@@ -1,54 +1,57 @@
-// Service for RAG Chatbot Backend (Flask + Groq)
-const RAG_API_URL = 'http://localhost:5000';
+// Service for Medical Chatbot using Gemini API
+import { sendMessageToGemini, ChatMessage as GeminiChatMessage } from './geminiService';
 
 export interface ChatMessage {
     role: 'user' | 'assistant';
     content: string;
 }
 
+// Store conversation history for context-aware responses
+let conversationHistory: GeminiChatMessage[] = [];
+
 /**
- * Send a message to the RAG chatbot backend
+ * Send a message to the Gemini AI chatbot
+ * @param message - The user's message
+ * @param history - Optional conversation history for context
  */
-export async function sendMessageToRAG(message: string): Promise<string> {
+export async function sendMessageToRAG(
+    message: string,
+    history?: ChatMessage[]
+): Promise<string> {
     try {
-        const response = await fetch(`${RAG_API_URL}/chat`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-            }),
-        });
+        // Convert history to Gemini format if provided
+        const contextHistory: GeminiChatMessage[] = history
+            ? history.map(msg => ({
+                role: msg.role,
+                content: msg.content
+            }))
+            : conversationHistory;
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
+        // Send message to Gemini API with conversation context
+        const response = await sendMessageToGemini(message, contextHistory);
 
-            if (response.status === 429) {
-                throw new Error('Rate limit exceeded. Please wait a moment and try again.');
-            }
+        // Update conversation history
+        conversationHistory.push(
+            { role: 'user', content: message },
+            { role: 'assistant', content: response }
+        );
 
-            throw new Error(errorData.error || `Server error: ${response.status}`);
+        // Keep history manageable (last 10 exchanges = 20 messages)
+        if (conversationHistory.length > 20) {
+            conversationHistory = conversationHistory.slice(-20);
         }
 
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.error || 'Failed to get response from chatbot');
-        }
-
-        return data.response;
+        return response;
     } catch (error: any) {
-        console.error('Error calling RAG API:', error);
+        console.error('Error calling Gemini API:', error);
 
-        // Network errors
-        if (error.message?.includes('fetch')) {
-            return "❌ Cannot connect to the chatbot server. Please make sure the Flask backend is running on http://localhost:5000";
+        // Handle specific error cases
+        if (error.message?.includes('API key')) {
+            return "❌ Gemini API key is not configured properly. Please check your environment settings.";
         }
 
-        // Rate limit errors
-        if (error.message?.includes('rate limit') || error.message?.includes('429')) {
-            return "⏳ You've reached the rate limit. Please wait a moment before sending another message.";
+        if (error.message?.includes('quota') || error.message?.includes('429')) {
+            return "⏳ API quota exceeded. Please wait a moment before sending another message.";
         }
 
         // Return the error message or a generic one
@@ -57,16 +60,17 @@ export async function sendMessageToRAG(message: string): Promise<string> {
 }
 
 /**
- * Check if the RAG backend is running
+ * Reset conversation history (useful for new chat sessions)
+ */
+export function resetConversationHistory(): void {
+    conversationHistory = [];
+}
+
+/**
+ * Check if the Gemini API is configured
  */
 export async function checkRAGBackendStatus(): Promise<boolean> {
-    try {
-        const response = await fetch(`${RAG_API_URL}/`, {
-            method: 'GET',
-        });
-        return response.ok;
-    } catch (error) {
-        console.error('RAG backend is not running:', error);
-        return false;
-    }
+    // Check if API key is configured
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    return !!(apiKey && apiKey !== 'your_gemini_api_key_here');
 }

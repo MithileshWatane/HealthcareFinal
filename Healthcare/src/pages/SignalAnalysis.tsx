@@ -95,7 +95,7 @@ export default function SignalAnalysis() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("http://localhost:8000/api/eeg/analyze", {
+      const res = await fetch("https://healthcare-eeg-b8cc.onrender.com/api/eeg/analyze", {
         method: "POST",
         body: formData
       });
