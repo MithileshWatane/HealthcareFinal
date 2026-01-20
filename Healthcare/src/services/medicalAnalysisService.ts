@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://healthcare-document.onrender.com/api';
+const API_BASE_URL = 'https://healthcarefinal-qxvr.onrender.com/api';
 
 export interface AnalysisResponse {
     success: boolean;
