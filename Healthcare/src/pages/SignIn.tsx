@@ -162,7 +162,7 @@ export default function SignIn() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full border-primary/50 hover:bg-primary/5"
+                className="w-full border-primary/50 "
                 disabled={loading}
                 onClick={async () => {
                   setEmail("hackmatez11@gmail.com");
