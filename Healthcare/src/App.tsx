@@ -9,6 +9,7 @@ import LandingPage from "./pages/LandingPage";
 import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import DemoLogin from "./pages/DemoLogin";
 import Chatbot from "./pages/Chatbot";
 import SkinDetection from "./pages/SkinDetection";
 import ReportScanning from "./pages/ReportScanning";
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/" element={<LandingPage />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/demo" element={<DemoLogin />} />
 
             {/* Protected Routes - Require Authentication */}
             <Route

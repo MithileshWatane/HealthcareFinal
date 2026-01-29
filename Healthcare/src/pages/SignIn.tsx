@@ -150,6 +150,52 @@ export default function SignIn() {
                 )}
               </Button>
 
+              <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">For Recruiters</span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-primary/50 hover:bg-primary/5"
+                disabled={loading}
+                onClick={async () => {
+                  setEmail("hackmatez11@gmail.com");
+                  setPassword("12345678");
+                  setLoading(true);
+                  try {
+                    await signIn("hackmatez11@gmail.com", "12345678");
+                    toast({
+                      title: "Demo Access Granted!",
+                      description: "Welcome to the demo account",
+                    });
+                    navigate(from, { replace: true });
+                  } catch (error: any) {
+                    toast({
+                      title: "Error",
+                      description: error.message || "Demo login failed",
+                      variant: "destructive",
+                    });
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  "🎯 Demo Login (One Click)"
+                )}
+              </Button>
+
 
             </form>
 

@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Stethoscope, Shield, Brain, Activity, ArrowRight, Check } from "lucide-react";
+import { Stethoscope, Shield, Brain, Activity, ArrowRight, Check, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const features = [
   {
@@ -37,6 +40,29 @@ const benefits = [
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleDemoLogin = async () => {
+    setIsLoading(true);
+    try {
+      await signIn("hackmatez11@gmail.com", "12345678");
+      toast({
+        title: "Demo Access Granted! 🎉",
+        description: "Welcome to MedCare AI demo account",
+      });
+      navigate("/dashboard");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Demo login failed",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -50,6 +76,24 @@ const LandingPage = () => {
             <span className="font-display font-bold text-xl text-foreground">MedCare AI</span>
           </div>
           <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              className="border-primary/50 hover:bg-primary/5"
+              onClick={handleDemoLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Demo Login
+                </>
+              )}
+            </Button>
             <Link to="/signin">
               <Button className="gradient-primary">Sign in</Button>
             </Link>
@@ -228,8 +272,20 @@ const LandingPage = () => {
               <Button
                 size="lg"
                 className="bg-card text-foreground hover:bg-card/90 text-lg px-8"
+                onClick={handleDemoLogin}
+                disabled={isLoading}
               >
-                Sign In (Demo)
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Try Demo Now
+                  </>
+                )}
               </Button>
               <Link to="/signup">
                 <Button
