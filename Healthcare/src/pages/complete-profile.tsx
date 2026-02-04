@@ -128,7 +128,7 @@ export default function CompleteProfile() {
     )
   }
 
-  const qrUrl = user ? `https://hackmatez11.github.io/QR//index.html?id=${user.id}` : ""
+  const qrUrl = user ? `https://qrdeploy-indol.vercel.app/?id=${user.id}` : ""
 
 
   return (
