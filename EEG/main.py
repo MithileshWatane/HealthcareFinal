@@ -1,13 +1,30 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+import numpy as np
 
 from services.eeg_loader import load_eeg
 from services.eeg_preprocessing import preprocess_eeg
 from services.eeg_features import extract_band_powers, extract_band_powers_timeseries
-from models.transformer_loader import predict_eeg
+from models.transformer_loader import predict_eeg, _get_model
 from models.attention import get_attention_map
 
 app = FastAPI(title="AI EEG Analysis API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.on_event("startup")
+async def warmup():
+    """Warm up model on startup so XLA compiles before first real request."""
+    print("Warming up model...")
+    dummy = np.zeros((1, 64, 8, 3), dtype=np.float32)
+    model = _get_model()
+    model.predict(dummy, verbose=0)
+    print("Model warm-up complete.")
 
 app.add_middleware(
     CORSMiddleware,

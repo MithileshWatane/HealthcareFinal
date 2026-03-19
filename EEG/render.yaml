@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: eeg-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: standard
+    envVars:
+      - key: PORT
+        value: 8000

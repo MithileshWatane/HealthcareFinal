@@ -39,7 +39,7 @@ def _get_model():
 
 def predict_eeg(eeg_windows):
     model = _get_model()
-    preds = model.predict(eeg_windows)
+    preds = model.predict(eeg_windows, batch_size=32, verbose=0)
     score = float(np.mean(preds))
 
     prediction = "MDD" if score > 0.5 else "Healthy"
