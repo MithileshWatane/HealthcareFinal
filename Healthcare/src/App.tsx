@@ -16,6 +16,7 @@ import ReportScanning from "./pages/ReportScanning";
 import Appointments from "./pages/Appointments";
 import HealthPrediction from "./pages/HealthPrediction";
 import VoiceConsultation from "./pages/VoiceConsultation";
+import SignalAnalysis from "./pages/SignalAnalysis";
 import HealthRecords from "./pages/HealthRecords";
 import Alerts from "./pages/Alerts";
 import MentalHealth from "./pages/MentalHealth";
@@ -130,6 +131,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Games />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signal-analysis"
+              element={
+                <ProtectedRoute>
+                  <SignalAnalysis />
                 </ProtectedRoute>
               }
             />

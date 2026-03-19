@@ -37,6 +37,7 @@ const menuItems = [
   { icon: Database, label: "Health Records", path: "/health-records" },
   { icon: Bell, label: "Alerts", path: "/alerts" },
   { icon: Brain, label: "Mental Health", path: "/mental-health" },
+  { icon: Activity, label: "Signal Analysis", path: "/signal-analysis" },
   { icon: Gamepad2, label: "Games & Exercise", path: "/games" },
   { icon: Heart, label: "Lifestyle", path: "/lifestyle" },
   { icon: User, label: "Profile", path: "/complete-profile" },
